@@ -21,7 +21,7 @@
                     <a class="nav-link active" aria-current="page" th:href="@{/home}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
+                    <a class="nav-link" th:href="@{/usuariolista}">Usuarios</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/login}">Sair</a>
@@ -36,12 +36,12 @@
         <div class="container-fluid py-4">
             <h1 class="display-5 fw-bold">Bem-vindo ao sistema</h1>
 
-            <div class="alert alert-success" role="alert" th:if="${usuario}" th:text="${usuario}">
-                Bem-vindo joão
+            <div class="alert alert-success" role="alert" th:if="${mensagem}" th:text="${mensagem}">
+                Bem-Vindo,
             </div>
 
             <p class="col-md-8 fs-4">Esta e uma pagina inicial simples feita com Spring Boot, Thymeleaf e Bootstrap.</p>
-            <a class="btn btn-primary btn-lg" th:href="@{/usuarios}">Acessar usuarios</a>
+            <a class="btn btn-primary btn-lg" th:href="@{/usuariolista}">Acessar usuarios</a>
         </div>
     </div>
 </main>

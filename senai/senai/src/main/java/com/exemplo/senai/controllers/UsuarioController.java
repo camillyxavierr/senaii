@@ -2,8 +2,11 @@ package com.exemplo.senai.controllers;
 
 import com.exemplo.senai.dtos.UsuarioDto;
 import com.exemplo.senai.services.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,16 +30,31 @@ public class UsuarioController {
         usuarioDto.setEmail(email);
         usuarioDto.setSenha(senha);
 
-        boolean retorno = service.realizarLogin(usuarioDto);
+        UsuarioDto usuarioDtoRetorno = service.realizarLogin(usuarioDto);
 
-        System.out.println("retorno"+retorno);
-        //Ver se está retornando false ou verdadeiro/true
-        if (retorno) {
-            redirectAttributes.addFlashAttribute("usuario","Bem-vindo joão");
+        if (usuarioDtoRetorno.getNome() != null) {
+
+            redirectAttributes.addFlashAttribute("mensagem","Bem-Vindo, " + usuarioDtoRetorno.getNome());
             return "redirect:/home";
         }
-        model.addAttribute("erro","E-mail ou senha invalidos.");
-        return "login";
 
+        model.addAttribute("erro","E-mail ou senha inválido.");
+        return "login";
     }
+
+    @PostMapping("/usuarioinserir")
+    public String usuarioInserir(@Valid @ModelAttribute("usuario") UsuarioDto usuarioDto, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+       if (bindingResult.hasErrors()){
+            return "usuarioinserir";
+        }
+
+        service.usuarioInserir(usuarioDto);
+
+        redirectAttributes.addFlashAttribute("mensagem", "Usuario cadastrado com sucesso.");
+
+        return "redirect:/usuariolista";
+    }
+
+
 }
